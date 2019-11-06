@@ -578,6 +578,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoyBoy
       objectReference: {fileID: 0}
+    - target: {fileID: 699888043801749886, guid: 7a8677510bd628c4084834c73e51752d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 699888043801749872, guid: 7a8677510bd628c4084834c73e51752d,
         type: 3}
       propertyPath: m_LocalPosition.x
