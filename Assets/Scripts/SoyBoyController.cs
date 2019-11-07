@@ -10,6 +10,8 @@ public class SoyBoyController : MonoBehaviour
     public float accel = 6f;
     public float jumpDurationThreshold = 0.25f;
     public float jumpSpeed = 8f;
+    public float airAccel = 3f;
+    public float jump = 14f;
     public bool isJumping;
     private Vector2 input;
     private SpriteRenderer sr;
@@ -61,11 +63,75 @@ public class SoyBoyController : MonoBehaviour
         }
     }
 
+    public bool IsWallToLeftOrRight()
+    {
+        // 1
+        bool wallOnleft = Physics2D.Raycast(new Vector2(
+        transform.position.x - width, transform.position.y),
+        -Vector2.right, rayCastLengthCheck);
+        bool wallOnRight = Physics2D.Raycast(new Vector2(
+        transform.position.x + width, transform.position.y),
+        Vector2.right, rayCastLengthCheck);
+        // 2
+        if (wallOnleft || wallOnRight)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool PlayerIsTouchingGroundOrWall()
+    {
+        if (PlayerIsOnGround() || IsWallToLeftOrRight())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //returns an integer based on whether the wall is left (-1), right (1), or neither (0).
+    public int GetWallDirection()
+    {
+        bool isWallLeft = Physics2D.Raycast(new Vector2(
+        transform.position.x - width, transform.position.y),
+        -Vector2.right, rayCastLengthCheck);
+        bool isWallRight = Physics2D.Raycast(new Vector2(
+        transform.position.x + width, transform.position.y),
+        Vector2.right, rayCastLengthCheck);
+        if (isWallLeft)
+        {
+            return -1;
+        }
+        else if (isWallRight)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     void FixedUpdate()
     {
         // Assign the value of accel — the public float field — to a private variable named acceleration.
-                var acceleration = accel;
+        var acceleration = 0f;
+        if (PlayerIsOnGround())
+        {
+            acceleration = accel;
+        }
+        else
+        {
+            acceleration = airAccel;
+        }
         var xVelocity = 0f;
+
         // If horizontal axis controls are neutral, then xVelocity is set to 0, otherwise xVelocity is set to the current x velocity of the rb(aka Rigidbody2D) component.
         if (input.x == 0)
         {
@@ -75,11 +141,29 @@ public class SoyBoyController : MonoBehaviour
         {
             xVelocity = rb.velocity.x;
         }
+
+        var yVelocity = 0f;
+        if (PlayerIsTouchingGroundOrWall() && input.y == 1)
+        {
+            yVelocity = jump;
+        }
+        else
+        {
+            yVelocity = rb.velocity.y;
+        }
+
         // Force is added to rb by calculating the current value of the horizontal axis controls multiplied by speed, which is in turn multiplied by acceleration.
         rb.AddForce(new Vector2(((input.x * speed) - rb.velocity.x)
         * acceleration, 0));
+
         // Velocity is reset on rb so it can stop Super Soy Boy from moving left or right when controls are in a neutral state.
-        rb.velocity = new Vector2(xVelocity, rb.velocity.y);
+        rb.velocity = new Vector2(xVelocity, yVelocity);
+
+        if (IsWallToLeftOrRight() && !PlayerIsOnGround() && input.y == 1)
+        {
+            rb.velocity = new Vector2(-GetWallDirection()
+            * speed * 0.75f, rb.velocity.y);
+        }
 
         if (isJumping && jumpDuration < jumpDurationThreshold)
         {
@@ -113,13 +197,15 @@ public class SoyBoyController : MonoBehaviour
             jumpDuration = 0f;
         }
 
-        if (PlayerIsOnGround() && isJumping == false)
+        if (PlayerIsOnGround() && input.x == 0)
         {
             if (input.y > 0f)
             {
                 isJumping = true;
             }
         }
+
+
 
         if (jumpDuration > jumpDurationThreshold) input.y = 0f;
     }
