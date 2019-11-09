@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Hazard.cs" />
      <Compile Include="Assets\Scripts\RotationScript.cs" />
      <Compile Include="Assets\Scripts\SoyBoyController.cs" />
+     <Compile Include="Assets\Scripts\Timer.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/hocke/Desktop/soyboi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
