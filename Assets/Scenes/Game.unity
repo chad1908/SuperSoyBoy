@@ -848,7 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f257708beb6e0c0478ebee7d3671ccb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelName: 
+  levelName: My level
 --- !u!4 &1264689323
 Transform:
   m_ObjectHideFlags: 0
@@ -857,7 +857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264689321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5884, y: 6.024063, z: -0.022086095}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 298807553}
@@ -1051,12 +1051,12 @@ PrefabInstance:
     - target: {fileID: 699888043801749872, guid: 7a8677510bd628c4084834c73e51752d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.97
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 699888043801749872, guid: 7a8677510bd628c4084834c73e51752d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.6
+      value: 5.61
       objectReference: {fileID: 0}
     - target: {fileID: 699888043801749872, guid: 7a8677510bd628c4084834c73e51752d,
         type: 3}
@@ -1170,6 +1170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camTarget: {fileID: 914980352}
   trackingSpeed: 2.5
+  cameraZDepth: 0
   minX: -100
   minY: -100
   maxX: 100
